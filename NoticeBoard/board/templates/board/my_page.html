@@ -1,0 +1,67 @@
+{% extends 'board/default.html' %}
+
+{% load static %}
+
+
+{% block content %}
+
+<div class="my-page">
+    <div class="my-page-content">
+        {% if articles %}
+        <div class="" style="width: 100%;">
+            <label class="" for="">Your articles:</label>
+        </div>
+        <div class="my-objects">
+            {% for article in articles %}
+            <div class="item-box">
+                <p>{{ article.title }}</p>
+                {{ article.text|safe }}
+                <hr>
+                <div class="actions">
+                    <a href="/{{ article.pk }}/article_update" class="update">Update</a>
+                    <a href="/{{ article.pk }}/article_delete" class="delete">Delete</a>
+                </div>
+            </div>
+            
+            {% endfor %}
+        </div>
+        {% else %}
+        <h1>Your ad could be here...</h1>
+        {% endif %}
+    </div>
+</div>
+    
+<div class="my-page">
+    <div class="my-page-content">
+        {% if filter.qs %}
+        <form action="" method="get" class="filter">
+            {{ filter.form.as_p }}
+            <input type="submit" value="Filter">
+        </form>
+        <label for="">Incoming replies:</label>
+        <div class="my-objects">
+            {% for reply in filter.qs %}
+            {% if reply %}
+            <div class="item-box">
+                <p>{{ reply.author }}</p>
+                <p>{{ reply.article }}</p>
+                <p>{{ reply.create_date }}</p>
+                <p>{{ reply.text }}</p>
+                <hr>
+                <div class="actions">
+                    {% if not reply.accepted %}
+                    <a href="/{{ reply.id }}/reply_accept" class="accept">Accept</a>
+                    {% endif %}
+                    <a href="/{{ reply.id }}/reply_delete" class="delete">Delete</a>
+                </div>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+        {% else %}
+        <label for="">There are no responses to your ad yet.</label>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}

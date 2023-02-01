@@ -1,0 +1,17 @@
+{% extends 'board/default.html' %}
+
+{% load static %}
+
+{% block content %}
+    <div class="item-list">
+        {% for article in articles %}
+        <a class="item-link" href="/{{ article.id }}/">
+            <div class="item-box">
+                <p>{{ article.title }}</p>
+                <p>{{ article.create_date }}</p>
+                <p>{{ article.author }}</p>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+{% endblock %}

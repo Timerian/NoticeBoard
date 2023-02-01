@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+
+{% load static %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    <title>NoticeBoard</title>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-content">
+            <a href="" class="nav-link logo">NoticeBoard</a>
+            <div class="nav-menu">
+                <ul class="nav-list">
+                    <li class="nav-element"><a class="nav-link" href="{% url 'main_page' %}">Main</a> </li>
+                    <li class="nav-element"><a class="nav-link" href="{% url 'my_page' %}">My page</a> </li>
+                    <li class="nav-element"><a class="nav-link" href="{% url 'article_list' %}">Articles</a> </li>
+                    {% if user.is_authenticated %}
+                    <li class="nav-element"><a class="nav-link" href="{% url 'account_logout' %}">Sign Out</a></li>
+                    {% else %}
+                    <li class="nav-element"><a class="nav-link" href="{% url 'account_login' %}">Sign In</a></li>
+                    <li class="nav-element"><a class="nav-link" href="{% url 'account_signup' %}">Sign Up</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <section class="main-container">
+
+        {% block content %}
+    
+        {% endblock %}
+
+    </section>
+
+
+</body>
+</html>

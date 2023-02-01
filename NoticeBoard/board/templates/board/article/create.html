@@ -1,0 +1,12 @@
+{% extends 'board/default.html' %}
+
+{% load static %}
+
+{% block content %}
+<form action="" method="post">
+    {% csrf_token %}
+    {{ form.media }}
+    {{ form.as_p }}
+    <input type="submit" value="Publish" >
+</form>
+{% endblock %}

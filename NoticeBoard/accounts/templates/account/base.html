@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+
+{% load static %}
+
+<html>
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    <title>{% block head_title %}{% endblock %}</title>
+    {% block extra_head %}
+    {% endblock %}
+  </head>
+  <body>
+    {% block body %}
+    <nav class="navbar">
+      <div class="nav-content">
+          <a href="" class="nav-link logo">NoticeBoard</a>
+          <div class="nav-menu">
+              <ul class="nav-list">
+                  <li class="nav-element"><a class="nav-link" href="{% url 'my_page' %}">My page</a> </li>
+                  <li class="nav-element"><a class="nav-link" href="{% url 'article_list' %}">Articles</a> </li>
+                  {% if user.is_authenticated %}
+                  <li class="nav-element"><a class="nav-link" href="{% url 'account_email' %}">Change E-mail</a></li>
+                  <li class="nav-element"><a class="nav-link" href="{% url 'account_logout' %}">Sign Out</a></li>
+                  {% else %}
+                  <li class="nav-element"><a class="nav-link" href="{% url 'account_login' %}">Sign In</a></li>
+                  <li class="nav-element"><a class="nav-link" href="{% url 'account_signup' %}">Sign Up</a></li>
+                  {% endif %}
+              </ul>
+          </div>
+      </div>
+    </nav>
+
+    <section class="main-container">
+
+      {% if messages %}
+      <div>
+        <strong>Messages:</strong>
+        <ul>
+          {% for message in messages %}
+          <li>{{message}}</li>
+          {% endfor %}
+        </ul>
+      </div>
+      {% endif %}
+      {% block content %}
+      {% endblock %}
+      {% endblock %}
+      {% block extra_body %}
+      {% endblock %}
+    </section>
+  </body>
+</html>

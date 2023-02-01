@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ads for the week</title>
+</head>
+<body>
+    <h2>Hello! There is publications of the last week!</h2>
+    <hr>
+    {% for article in articles %}
+        <p>
+            <a href="http://127.0.0.1:8000/{{ article.pk }}">{{ article.title }}</a> by {{ article.author }}.
+        </p>
+    {% endfor %}
+</body>
+</html>

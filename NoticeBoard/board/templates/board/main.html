@@ -1,0 +1,29 @@
+{% extends 'board/default.html' %}
+
+{% load static %}
+
+{% block content %}
+<div class="main">
+    <div class="cards">
+        <a href="{% url 'article_list' %}" class="card-link">
+            <div class="card">
+                <h2>List of articles</h2>
+                <p>Here you can see user announcements.</p>
+            </div>
+        </a>
+        <a href="{% url 'article_create' %}" class="card-link">
+            <div class="card">
+                <h2>Сreate ad</h2>
+                <p>Post your ad to get user replies.</p>
+            </div>
+        </a>
+        <a href="{% url 'my_page' %}" class="card-link">
+            <div class="card">
+                <h2>Your personal page</h2>
+                <p>Here you can see your publications and reviews on them.</p>
+            </div>
+        </a>
+    </div>
+</div>
+
+{% endblock %}

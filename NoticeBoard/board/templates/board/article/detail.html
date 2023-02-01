@@ -1,0 +1,59 @@
+{% extends 'board/default.html' %}
+
+{% load static %}
+
+{% block content %}
+    <div class="item-bg">
+        <div class="item-detail">
+            <div class="item-info">
+                <span class="title">{{ article.title }}</span>
+                <br>
+                <span class="info">Author: {{ article.author }}</span>
+                <br>
+                <span class="info">Creation date: {{ article.create_date }}</span>
+            </div>
+            <br>
+            <hr>
+            <div class="item-body">
+                {{ article.text|safe }}
+            </div>
+            <hr>
+        </div>
+    </div>
+    <div class="item-bg">
+        <div class="item-replies">
+            {% with article.replies.all as replies  %}
+            <p>
+                <span style="font-size: 25px; font-weight: 500;"> Replies: </span><span style="font-size: 25px; font-weight: 200;">{{ replies|length }}</span>
+            </p>
+            
+            {% for reply in replies %}
+            <div class="item-reply">
+                <div class="reply-info">
+                    <span class="info">Author: {{ reply.author }}</span>
+                    <span class="info">Creation date: {{ reply.create_date }}</span>
+                </div>
+                <hr>
+                <div class="reply-body">
+                    {{ reply.text }}
+                </div>
+            </div>
+            {% endfor %}
+            {% endwith %}
+        </div>
+
+        {% if user.is_authenticated %}
+        <div class="item-replies">
+            <p>
+                <span style="font-size: 25px; font-weight: 500;"> Send your reply: </span>
+            </p>
+            <form action="/{{ article.id }}/reply_add/" class="reply-form" method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <input type="submit" value="Publish" >
+            </form>
+        </div>
+        {% endif %}
+    </div>
+
+{% endblock %}
