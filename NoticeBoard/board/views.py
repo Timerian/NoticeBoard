@@ -2,12 +2,12 @@ from django.shortcuts import render
 from django.urls import reverse_lazy
 
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import PermissionRequiredMixin
 
-from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, UpdateView
 
-from django.http.response import HttpResponse, HttpResponseRedirect
+from django.http.response import HttpResponseRedirect
 
 from .filters import ReplyFilter
 
@@ -42,6 +42,7 @@ def articleDetail(request, id):
     return render(request, 'board/article/detail.html', context)
 
 
+@login_required
 def deleteArticle(request, id):
     models.Article.objects.get(id=id).delete()
     return HttpResponseRedirect("/my_page")
@@ -53,7 +54,7 @@ class ArticleListView(ListView):
     template_name = 'board/article/list.html'
 
 
-class ArticleCreateView(CreateView):
+class ArticleCreateView(PermissionRequiredMixin, CreateView):
     model = models.Article
     form_class = forms.ArticleForm
     template_name = 'board/article/create.html'
@@ -66,7 +67,7 @@ class ArticleCreateView(CreateView):
         return reverse_lazy('my_page')
 
 
-class ArticleUpdateView(UpdateView):
+class ArticleUpdateView(PermissionRequiredMixin, UpdateView):
     model = models.Article
     form_class = forms.ArticleForm
     template_name = 'board/article/update.html'
@@ -96,7 +97,7 @@ def myPage(request):
 
     return render(request, 'board/my_page.html', context)
 
-
+@login_required
 def addReply(request, id):
     if request.method == "POST":
         author = request.user
@@ -115,6 +116,7 @@ def addReply(request, id):
     return HttpResponseRedirect(f'/{id}')
 
 
+@login_required
 def acceptReply(request, id):
     reply = models.Reply.objects.get(id=id)
     reply.accepted = True
@@ -122,6 +124,7 @@ def acceptReply(request, id):
     return HttpResponseRedirect("/my_page")
 
 
+@login_required
 def deleteReply(request, id):
     models.Reply.objects.get(id=id).delete()
     return HttpResponseRedirect("/my_page")
